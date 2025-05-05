@@ -1,3 +1,4 @@
+import React from 'react';
 // import AuthTopLogo from './AuthTopLogo';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -35,7 +36,7 @@ const Login = () => {
                         borderBottom: '1px solid rgba(223, 223, 223, 0.15)',
                     }}
                 >
-                    {/* <AuthTopLogo /> */} LOGO Goes Here
+                    {/* <AuthTopLogo /> LOGO Goes Here */}
                 </Box>
                 <Box sx={{ padding: '2.5rem' }}>
                     <Typography

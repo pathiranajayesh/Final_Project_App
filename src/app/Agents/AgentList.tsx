@@ -1,5 +1,5 @@
 import { Box, Button, IconButton, InputAdornment } from "@mui/material";
-import AllApplicantTable from "../../components/Tables/AllApplicantTable";
+import AllAgentTable from "../../components/Tables/AllAgentTable";
 import { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
 import * as Yup from 'yup';
@@ -8,12 +8,13 @@ import { debounce } from 'lodash';
 import { Add, Search } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../auth/axiosInstance";
+import { AgentDataType } from "../../types/AgentType";
 
 
 
 
 const AgentList = () => {
-  const [tableData, setTableData] = useState([]); // State to store the fetched data
+  const [tableData, setTableData] = useState<AgentDataType[]>([]); // State to store the fetched data
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state
   const navigate = useNavigate();
@@ -31,11 +32,34 @@ const AgentList = () => {
     // console.log('Form values:', values);
   };
 
+  const sampleAgentData: AgentDataType[] = [
+    {
+      name: "John Doe",
+      id: "A123",
+      fullName: "Johnathan Doe",
+      nicNumber: "123456789V",
+      isActive: true,
+    },
+    {
+      name: "Jane Smith",
+      id: "B456",
+      fullName: "Jane Alexandra Smith",
+      nicNumber: "987654321V",
+      isActive: false,
+    },
+    {
+      name: undefined,
+      id: "C789",
+      fullName: "Unknown Agent",
+      nicNumber: undefined,
+      isActive: true,
+    },
+  ];
   const fetchData = async () => {
     try {
-      const response = await axiosInstance.get('/api/Applicant');
-      const result = await response.data;
-      setTableData(result); // Set fetched data to state
+      // const response = await axiosInstance.get('/api/Agent');                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+      // const result = await response.data;
+      setTableData(sampleAgentData); // Set fetched data to state
     } catch (err) {
       setError('Failed to fetch data');
     } finally {
@@ -141,7 +165,7 @@ const AgentList = () => {
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
         {!loading && tableData.length===0 && <p>No Agent data found!</p>}
-        <AllApplicantTable tableData={tableData} />
+        <AllAgentTable tableData={tableData} />
       </Box>
 
     </div>

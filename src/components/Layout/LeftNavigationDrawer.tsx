@@ -213,15 +213,15 @@ export default function LeftNavigationDrawer() {
                             />
                         </ListItemButton>
                     </ListItem>
-                    <ListItem key={'Agent'} disablePadding sx={{ display: 'block' }}>
+                    <ListItem key={'Agents'} disablePadding sx={{ display: 'block' }}>
                         <ListItemButton sx={[{ minHeight: 48, px: 2.5 }, open ? { justifyContent: 'initial', } : { justifyContent: 'center' }]} onClick={() => { window.location.href = '/agent' }}>
                             <ListItemIcon
                                 sx={[{ minWidth: 0, justifyContent: 'center' }, open ? { mr: 3, } : { mr: 'auto', }]}
                             >
-                                <Icon baseClassName="fas" className="fa-user-group" sx={{ fontSize: 18, width: 50 }} />
+                                <Icon baseClassName="fas" className="fa-handshake" sx={{ fontSize: 18, width: 50 }} />
                             </ListItemIcon>
                             <ListItemText
-                                primary={'Agent'}
+                                primary={'Agents'}
                                 sx={[open ? { opacity: 1, } : { opacity: 0, }]}
                             />
                         </ListItemButton>
