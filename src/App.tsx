@@ -17,6 +17,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import AgentList from "./app/agents/AgentList";
 import AgentView from "./app/agents/AgentView";
 import AgentForm from "./app/agents/AgentForm";
+import PaymentList from "./app/payments/PaymentsList";
+import PaymentView from "./app/payments/PaymentView";
 
 // Define Routes
 const router = createBrowserRouter(
@@ -35,6 +37,8 @@ const router = createBrowserRouter(
         <Route path="agent/:id" element={<AgentView/>}/>
         <Route path = "agent/add" element={<AgentForm isCreating={true}/>}/>
         <Route path="agent/edit/:id" element={<AgentForm isCreating={false}/>}/>
+        <Route path="payments" element={<PaymentList />} />
+        <Route path="payments/:id" element={<PaymentView />} />
       </Route>
 
       {/* Route without RootLayout */}

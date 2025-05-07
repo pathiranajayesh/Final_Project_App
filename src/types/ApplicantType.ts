@@ -1,5 +1,6 @@
 import { CivilStatus } from "./CivilStatusEnum";
-
+import { PaymentDataType } from "./PaymentType";
+import { ScheduleType } from "./ScheduleType";
 export type ApplicantDataType = {
   image: string | undefined;
   name: string | undefined;
@@ -74,6 +75,8 @@ export type ApplicantDataType = {
 
   // Notes
   notes?: string;
+  payments? : PaymentDataType[];
+  schedules? : ScheduleType[];
 
 
 };

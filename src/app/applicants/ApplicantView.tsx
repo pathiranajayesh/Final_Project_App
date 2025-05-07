@@ -1,4 +1,3 @@
-import React from "react";
 //import { useParams } from "react-router";
 import {
     Box,
@@ -17,7 +16,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useEffect, useState } from "react";
 import { ApplicantDataType } from "../../types/ApplicantType";
-import { AirplaneTicket, Badge, Call, ChevronLeft, Mail, SpeakerNotes, WhatsApp } from "@mui/icons-material";
+import { AirplaneTicket, Badge, Call, ChevronLeft, Download, Mail, OpenInNew, Print, SpeakerNotes, WhatsApp } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../auth/axiosInstance";
 
@@ -470,9 +469,12 @@ const ApplicantView = () => {
                         Test note Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque, a. Iure alias illum, aliquid placeat omtempore mollitia nemo voluptate voluptates sed voluptatum neque?
                     </Typography> */}
                 </Box>
+                <Stack direction="column" spacing={2} >
                 <Box sx={{ p: 3, borderRadius: 2, textAlign: "center", backgroundColor: "rgb(120, 192, 214)", boxShadow: 1, minWidth: 500, justifyContent: "center", maxHeight: 400 }}>
                     {/* Profile Image Section */}
                     <Box sx={{ position: "relative", mb: 2 }} width={500} textAlign={"left"}>
+                    <Box>
+                    <Stack direction="row" spacing={2} >
                         <Avatar
                             src="/img/bg-img/user-palceholder.png"
                             alt="admin"
@@ -484,21 +486,14 @@ const ApplicantView = () => {
                                 borderColor: "primary.main",
                             }}
                         />
-                        {/* <IconButton
-                        sx={{
-                            position: "absolute",
-                            bottom: 20,
-                            left: "12%",
-                            transform: "translate(50%, 50%)",
-                            backgroundColor: "primary.main",
-                            color: "white",
-                            "&:hover": {
-                                backgroundColor: "primary.dark",
-                            },
-                        }}
-                    >
-                        <CameraAlt />
-                    </IconButton> */}
+                        
+                        <img src="/img/bg-img/199456703490.gif" alt="admin" width={200} height={150} style={{ position:"absolute", top: 15, left: 250 }} /> 
+                        <Print style={{ position:"absolute", top: 15, left: 460 }}/>
+                        <Download style={{ position:"absolute", top: 90, left: 460 }}/>
+                        </Stack>
+
+                        
+                    </Box>
                         {/* User Details */}
                         <Typography variant="h5" sx={{ mb: 1 }}>
                             {applicant.fullName}
@@ -515,10 +510,77 @@ const ApplicantView = () => {
                     </Box>
 
                 </Box>
+                {/* Payment Section */}
+                <Box sx={{ p: 3, borderRadius: 2, textAlign: "center", backgroundColor: "rgb(203, 253, 220)", boxShadow: 1, minWidth: 500, justifyContent: "center", maxHeight: 400 }}>
+                    <Box sx={{ position: "relative", mb: 2 }} width={500} textAlign={"left"}>
+                        <Typography variant="h5" sx={{ mb: 1 }}>
+                            Payments <a href="http://"><OpenInNew /></a>
+                        </Typography>
+                        <Typography variant="subtitle1" sx={{ color: "text.secondary", fontSize: 14 }}>
+                            <table style={{ width: "100%" }}>
+                                <thead>
+                                    <tr>
+                                        <th style={{ padding: "8px", textAlign: "left" }}>Payment Date</th>
+                                        <th style={{ padding: "8px", textAlign: "left" }}>Payment ID</th>
+                                        <th style={{ padding: "8px", textAlign: "left" }}>Method</th>
+                                        <th style={{ padding: "8px", textAlign: "left" }}>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {applicant.payments && applicant.payments.map((payment) => (
+                                        <tr key={payment.id}>
+                                            <td style={{ padding: "8px" }}>{new Date(payment.paymentDate).toLocaleDateString()}</td>
+                                            <td style={{ padding: "8px" }}>{payment.referenceNumber}</td>
+                                            <td style={{ padding: "8px" }}>{payment.paymentMethod}</td>
+                                            <td style={{ padding: "8px" }}>{payment.currency} {payment.amount}</td>
+                                        </tr>
+                                    ))}
+                                    <tr>
+                                        <td style={{ padding: "8px" }}></td>
+                                        <td style={{ padding: "8px" }}></td>
+                                        <td style={{ padding: "8px", fontWeight: 900 }}>Total</td>
+                                        <td style={{ padding: "8px", fontWeight: 900 }}>
+                                            {applicant.payments && applicant.payments.reduce((total, payment) => total + parseFloat(payment.amount), 0).toFixed(2)}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Typography>
+                    </Box>
+                </Box>
 
+                <Box sx={{ p: 3, borderRadius: 2, textAlign: "center", backgroundColor: "rgb(221, 203, 154)", boxShadow: 1, minWidth: 500, justifyContent: "center", maxHeight: 400 }}>
+                    {/* Schedule Section */}
+                    <Box sx={{ position: "relative", mb: 2 }} width={500} textAlign={"left"}>
+                        <Typography variant="h5" sx={{ mb: 1 }}>
+                            Schedule <a href="http://"><OpenInNew /></a>
+                        </Typography>
+                        <Typography variant="subtitle1" sx={{ color: "text.secondary", fontSize: 14 }}>
+                            <table style={{ width: "100%" }}>
+                                <thead>
+                                    <tr>
+                                        <th style={{ padding: "8px", textAlign: "left" }}>Event ID</th>
+                                        <th style={{ padding: "8px", textAlign: "left" }}>Description</th>
+                                        <th style={{ padding: "8px", textAlign: "left" }}>Date</th>
+                                        <th style={{ padding: "8px", textAlign: "left" }}>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {applicant.schedules && applicant.schedules.map((event) => (
+                                        <tr key={event.id}>
+                                            <td style={{ padding: "8px" }}>{event.id}</td>
+                                            <td style={{ padding: "8px" }}>{event.description}</td>
+                                            <td style={{ padding: "8px" }}>{new Date(event.scheduledDate).toLocaleDateString()}</td>
+                                            <td style={{ padding: "8px" }}>{event.schdeduledTime}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </Typography>
+                    </Box>
+                </Box>
+                </Stack>
             </Stack>
-
-
 
         </Box>
     );

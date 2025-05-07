@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Button, IconButton, InputAdornment } from "@mui/material";
 import AllApplicantTable from "../../components/Tables/AllApplicantTable";
 import { useEffect, useState } from "react";

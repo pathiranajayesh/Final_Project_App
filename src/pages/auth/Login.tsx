@@ -1,4 +1,3 @@
-import React from 'react';
 // import AuthTopLogo from './AuthTopLogo';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';

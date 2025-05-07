@@ -17,9 +17,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Icon from '@mui/material/Icon';
-import { Logout } from '@mui/icons-material';
+import { Logout, MonetizationOn, VerifiedUserRounded } from '@mui/icons-material';
 import { logout } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
+import { Avatar, Stack } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -119,7 +120,7 @@ export default function LeftNavigationDrawer() {
         setOpen(false);
     };
 
-    const  handleLogout = async() => {
+    const handleLogout = async () => {
         await logout(navigate);
     };
 
@@ -143,26 +144,43 @@ export default function LeftNavigationDrawer() {
                         <MenuIcon />
                     </IconButton>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '90%' }}>
-                    <Typography variant="h6" noWrap component="div">
-                        Sky Europe Jobs
-                    </Typography>
-                    <Box>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleLogout}
-                            edge="end"
-                            title='Logout'
-                            sx={[
-                                {
-                                    marginRight: 0,
-                                    marginLeft: "100%",
-                                },
-                            ]}
-                        >
-                            <Logout  />
-                        </IconButton>
-                    </Box>
+                        <Typography variant="h6" noWrap component="div">
+                            Sky Europe Jobs
+                        </Typography>
+                        <Box>
+                            <Stack direction="row" spacing={2}>
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="open drawer"
+                                    edge="end"
+                                    title='Logout'
+                                    sx={[
+                                        {
+                                            marginRight: 0,
+                                            marginLeft: "100%",
+                                        },
+                                    ]}
+                                >
+                                    <Avatar />
+                                </IconButton>
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="open drawer"
+                                    onClick={handleLogout}
+                                    edge="end"
+                                    title='Logout'
+                                    sx={[
+                                        {
+                                            marginRight: 0,
+                                            marginLeft: "100%",
+                                        },
+                                    ]}
+                                >
+                                    <Logout />
+                                </IconButton>
+                            </Stack>
+
+                        </Box>
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -175,7 +193,7 @@ export default function LeftNavigationDrawer() {
                 <Divider />
                 <List>
                     <ListItem key={'Home'} disablePadding sx={{ display: 'block' }}>
-                        <ListItemButton sx={[{ minHeight: 48, px: 2.5 }, open ? { justifyContent: 'initial', } : { justifyContent: 'center' }]} onClick={() => {}}>
+                        <ListItemButton sx={[{ minHeight: 48, px: 2.5 }, open ? { justifyContent: 'initial', } : { justifyContent: 'center' }]} onClick={() => { }}>
                             <ListItemIcon
                                 sx={[{ minWidth: 0, justifyContent: 'center' }, open ? { mr: 3, } : { mr: 'auto', }]}
                             >
@@ -217,7 +235,7 @@ export default function LeftNavigationDrawer() {
                         <ListItemButton sx={[{ minHeight: 48, px: 2.5 }, open ? { justifyContent: 'initial', } : { justifyContent: 'center' }]} onClick={() => { window.location.href = '/agent' }}>
                             <ListItemIcon
                                 sx={[{ minWidth: 0, justifyContent: 'center' }, open ? { mr: 3, } : { mr: 'auto', }]}
-                            >
+>
                                 <Icon baseClassName="fas" className="fa-handshake" sx={{ fontSize: 18, width: 50 }} />
                             </ListItemIcon>
                             <ListItemText
@@ -226,11 +244,24 @@ export default function LeftNavigationDrawer() {
                             />
                         </ListItemButton>
                     </ListItem>
+                    <ListItem key={'Payments'} disablePadding sx={{ display: 'block' }}>
+                        <ListItemButton sx={[{ minHeight: 48, px: 2.5 }, open ? { justifyContent: 'initial', } : { justifyContent: 'center' }]} onClick={() => { window.location.href = '/payments' }}>
+                            <ListItemIcon
+                                sx={[{ minWidth: 0, justifyContent: 'center' }, open ? { mr: 3, } : { mr: 'auto', }]}
+                            >
+                                <Icon baseClassName="fas" className="fa-money-bill-wave" sx={{ fontSize: 18, width: 50 }} />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={'Payments'}
+                                sx={[open ? { opacity: 1, } : { opacity: 0, }]}
+                            />
+                        </ListItemButton>
+                    </ListItem>
                 </List>
                 <Divider />
                 <List>
                     <ListItem key={'Settings'} disablePadding sx={{ display: 'block' }}>
-                        <ListItemButton sx={[{ minHeight: 48, px: 2.5 }, open ? { justifyContent: 'initial', } : { justifyContent: 'center' }]} onClick={() => {  }}>
+                        <ListItemButton sx={[{ minHeight: 48, px: 2.5 }, open ? { justifyContent: 'initial', } : { justifyContent: 'center' }]} onClick={() => { }}>
                             <ListItemIcon
                                 sx={[{ minWidth: 0, justifyContent: 'center' }, open ? { mr: 3, } : { mr: 'auto', }]}
                             >
@@ -245,7 +276,7 @@ export default function LeftNavigationDrawer() {
 
                 </List>
                 <Divider />
-                
+
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                 <DrawerHeader />
