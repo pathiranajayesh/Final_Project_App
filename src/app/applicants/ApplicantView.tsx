@@ -12,6 +12,8 @@ import {
     AccordionSummary,
     AccordionDetails,
     Button,
+    TextField,
+    MenuItem,
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useEffect, useState } from "react";
@@ -19,6 +21,8 @@ import { ApplicantDataType } from "../../types/ApplicantType";
 import { AirplaneTicket, Badge, Call, ChevronLeft, Download, Mail, OpenInNew, Print, SpeakerNotes, WhatsApp } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../auth/axiosInstance";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 var applicant = {} as ApplicantDataType;
 
@@ -470,115 +474,236 @@ const ApplicantView = () => {
                     </Typography> */}
                 </Box>
                 <Stack direction="column" spacing={2} >
-                <Box sx={{ p: 3, borderRadius: 2, textAlign: "center", backgroundColor: "rgb(120, 192, 214)", boxShadow: 1, minWidth: 500, justifyContent: "center", maxHeight: 400 }}>
-                    {/* Profile Image Section */}
-                    <Box sx={{ position: "relative", mb: 2 }} width={500} textAlign={"left"}>
-                    <Box>
-                    <Stack direction="row" spacing={2} >
-                        <Avatar
-                            src="/img/bg-img/user-palceholder.png"
-                            alt="admin"
-                            sx={{
-                                width: 120,
-                                height: 120,
-                                //mx: "auto",
-                                border: "3px solid",
-                                borderColor: "primary.main",
-                            }}
-                        />
-                        
-                        <img src="/img/bg-img/199456703490.gif" alt="admin" width={200} height={150} style={{ position:"absolute", top: 15, left: 250 }} /> 
-                        <Print style={{ position:"absolute", top: 15, left: 460 }}/>
-                        <Download style={{ position:"absolute", top: 90, left: 460 }}/>
-                        </Stack>
+                    <Box sx={{ p: 3, borderRadius: 2, textAlign: "center", backgroundColor: "rgb(120, 192, 214)", boxShadow: 1, minWidth: 500, justifyContent: "center", maxHeight: 400 }}>
+                        {/* Profile Image Section */}
+                        <Box sx={{ position: "relative", mb: 2 }} width={500} textAlign={"left"}>
+                            <Box>
+                                <Stack direction="row" spacing={2} >
+                                    <Avatar
+                                        src="/img/bg-img/user-palceholder.png"
+                                        alt="admin"
+                                        sx={{
+                                            width: 120,
+                                            height: 120,
+                                            //mx: "auto",
+                                            border: "3px solid",
+                                            borderColor: "primary.main",
+                                        }}
+                                    />
 
-                        
+                                    <img src="/img/bg-img/199456703490.gif" alt="admin" width={200} height={150} style={{ position: "absolute", top: 15, left: 250 }} />
+                                    <Print style={{ position: "absolute", top: 15, left: 460 }} />
+                                    <Download style={{ position: "absolute", top: 90, left: 460 }} />
+                                </Stack>
+
+
+                            </Box>
+                            {/* User Details */}
+                            <Typography variant="h5" sx={{ mb: 1 }}>
+                                {applicant.fullName}
+                            </Typography>
+                            <Typography variant="subtitle1" sx={{ color: "text.secondary", fontSize: 14 }}>
+                                <Call /> <strong> Mobile :</strong>   {applicant.phoneMobile} <br />
+                                <WhatsApp /> <strong> WhatsApp :</strong>  {applicant.whatsAppMobile} <br />
+                                <Mail /> <strong> Email :</strong>  {applicant.email} <br />
+                                <Badge /> <strong> NIC :</strong>  {applicant.nicNumber} <br />
+                                <AirplaneTicket /><strong> Passport :</strong>  {applicant.passportNumber} <br />
+                                <SpeakerNotes /> <strong> Special Notes :</strong>  {applicant.notes} <br />
+                            </Typography>
+
+                        </Box>
+
                     </Box>
-                        {/* User Details */}
-                        <Typography variant="h5" sx={{ mb: 1 }}>
-                            {applicant.fullName}
-                        </Typography>
-                        <Typography variant="subtitle1" sx={{ color: "text.secondary", fontSize: 14 }}>
-                            <Call /> <strong> Mobile :</strong>   {applicant.phoneMobile} <br />
-                            <WhatsApp /> <strong> WhatsApp :</strong>  {applicant.whatsAppMobile} <br />
-                            <Mail /> <strong> Email :</strong>  {applicant.email} <br />
-                            <Badge /> <strong> NIC :</strong>  {applicant.nicNumber} <br />
-                            <AirplaneTicket /><strong> Passport :</strong>  {applicant.passportNumber} <br />
-                            <SpeakerNotes /> <strong> Special Notes :</strong>  {applicant.notes} <br />
-                        </Typography>
-
-                    </Box>
-
-                </Box>
-                {/* Payment Section */}
-                <Box sx={{ p: 3, borderRadius: 2, textAlign: "center", backgroundColor: "rgb(203, 253, 220)", boxShadow: 1, minWidth: 500, justifyContent: "center", maxHeight: 400 }}>
-                    <Box sx={{ position: "relative", mb: 2 }} width={500} textAlign={"left"}>
-                        <Typography variant="h5" sx={{ mb: 1 }}>
-                            Payments <a href="http://"><OpenInNew /></a>
-                        </Typography>
-                        <Typography variant="subtitle1" sx={{ color: "text.secondary", fontSize: 14 }}>
-                            <table style={{ width: "100%" }}>
-                                <thead>
-                                    <tr>
-                                        <th style={{ padding: "8px", textAlign: "left" }}>Payment Date</th>
-                                        <th style={{ padding: "8px", textAlign: "left" }}>Payment ID</th>
-                                        <th style={{ padding: "8px", textAlign: "left" }}>Method</th>
-                                        <th style={{ padding: "8px", textAlign: "left" }}>Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {applicant.payments && applicant.payments.map((payment) => (
-                                        <tr key={payment.id}>
-                                            <td style={{ padding: "8px" }}>{new Date(payment.paymentDate).toLocaleDateString()}</td>
-                                            <td style={{ padding: "8px" }}>{payment.referenceNumber}</td>
-                                            <td style={{ padding: "8px" }}>{payment.paymentMethod}</td>
-                                            <td style={{ padding: "8px" }}>{payment.currency} {payment.amount}</td>
+                    {/* Payment Section */}
+                    <Box sx={{ p: 3, borderRadius: 2, textAlign: "center", backgroundColor: "rgb(203, 253, 220)", boxShadow: 1, minWidth: 500, justifyContent: "center", maxHeight: 400 }}>
+                        <Box sx={{ position: "relative", mb: 2 }} width={500} textAlign={"left"}>
+                            <Typography variant="h5" sx={{ mb: 1 }}>
+                                Payments <a href="http://"><OpenInNew /></a>
+                            </Typography>
+                            <Typography variant="subtitle1" sx={{ color: "text.secondary", fontSize: 14 }}>
+                                <table style={{ width: "100%" }}>
+                                    <thead>
+                                        <tr>
+                                            <th style={{ padding: "8px", textAlign: "left" }}>Payment Date</th>
+                                            <th style={{ padding: "8px", textAlign: "left" }}>Payment ID</th>
+                                            <th style={{ padding: "8px", textAlign: "left" }}>Method</th>
+                                            <th style={{ padding: "8px", textAlign: "left" }}>Amount</th>
                                         </tr>
-                                    ))}
-                                    <tr>
-                                        <td style={{ padding: "8px" }}></td>
-                                        <td style={{ padding: "8px" }}></td>
-                                        <td style={{ padding: "8px", fontWeight: 900 }}>Total</td>
-                                        <td style={{ padding: "8px", fontWeight: 900 }}>
-                                            {applicant.payments && applicant.payments.reduce((total, payment) => total + parseFloat(payment.amount), 0).toFixed(2)}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </Typography>
-                    </Box>
-                </Box>
-
-                <Box sx={{ p: 3, borderRadius: 2, textAlign: "center", backgroundColor: "rgb(221, 203, 154)", boxShadow: 1, minWidth: 500, justifyContent: "center", maxHeight: 400 }}>
-                    {/* Schedule Section */}
-                    <Box sx={{ position: "relative", mb: 2 }} width={500} textAlign={"left"}>
-                        <Typography variant="h5" sx={{ mb: 1 }}>
-                            Schedule <a href="http://"><OpenInNew /></a>
-                        </Typography>
-                        <Typography variant="subtitle1" sx={{ color: "text.secondary", fontSize: 14 }}>
-                            <table style={{ width: "100%" }}>
-                                <thead>
-                                    <tr>
-                                        <th style={{ padding: "8px", textAlign: "left" }}>Event ID</th>
-                                        <th style={{ padding: "8px", textAlign: "left" }}>Description</th>
-                                        <th style={{ padding: "8px", textAlign: "left" }}>Date</th>
-                                        <th style={{ padding: "8px", textAlign: "left" }}>Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {applicant.schedules && applicant.schedules.map((event) => (
-                                        <tr key={event.id}>
-                                            <td style={{ padding: "8px" }}>{event.id}</td>
-                                            <td style={{ padding: "8px" }}>{event.description}</td>
-                                            <td style={{ padding: "8px" }}>{new Date(event.scheduledDate).toLocaleDateString()}</td>
-                                            <td style={{ padding: "8px" }}>{event.schdeduledTime}</td>
+                                    </thead>
+                                    <tbody>
+                                        {applicant.payments && applicant.payments.map((payment) => (
+                                            <tr key={payment.id}>
+                                                <td style={{ padding: "8px" }}>{new Date(payment.paymentDate).toLocaleDateString()}</td>
+                                                <td style={{ padding: "8px" }}>{payment.referenceNumber}</td>
+                                                <td style={{ padding: "8px" }}>{payment.paymentMethod}</td>
+                                                <td style={{ padding: "8px" }}>{payment.currency} {payment.amount}</td>
+                                            </tr>
+                                        ))}
+                                        <tr>
+                                            <td style={{ padding: "8px" }}></td>
+                                            <td style={{ padding: "8px" }}></td>
+                                            <td style={{ padding: "8px", fontWeight: 900 }}>Total</td>
+                                            <td style={{ padding: "8px", fontWeight: 900 }}>
+                                                {applicant.payments && applicant.payments.reduce((total, payment) => total + parseFloat(payment.amount), 0).toFixed(2)}
+                                            </td>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </Typography>
+                                    </tbody>
+                                </table>
+                            </Typography>
+                        </Box>
                     </Box>
-                </Box>
+
+                    {/* Add Payment Form */}
+                    <Accordion>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="add-payment-content"
+                            id="add-payment-header"
+                        >
+                            <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+                                Add Payment
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Formik
+                                initialValues={{
+                                    amount: "",
+                                    currency: "LKR",
+                                    paymentMethod: "BankTransfer",
+                                    paymentDate: "",
+                                    referenceNumber: "",
+                                    notes: "",
+                                }}
+                                validationSchema={Yup.object({
+                                    amount: Yup.number().required("Amount is required"),
+                                    currency: Yup.string().required("Currency is required"),
+                                    paymentMethod: Yup.string().required("Payment Method is required"),
+                                    paymentDate: Yup.date().required("Payment Date is required"),
+                                    referenceNumber: Yup.string().required("Reference Number is required"),
+                                })}
+                                onSubmit={async (values, { resetForm }) => {
+                                    try {
+                                        const response = await axiosInstance.post("/api/payment", {
+                                            ...values,
+                                            applicantId: applicant.id, // Attach the applicant ID
+                                        });
+                                        if (response.status === 201 || response.status === 200) {
+                                            alert("Payment added successfully!");
+                                            resetForm();
+                                            // Optionally, refresh the payments list
+                                        }
+                                    } catch (error) {
+                                        console.error("Error adding payment:", error);
+                                        alert("Failed to add payment. Please try again.");
+                                    }
+                                }}
+                            >
+                                {({ handleChange, handleSubmit, values, errors, touched }) => (
+                                    <form onSubmit={handleSubmit}>
+                                        <Stack spacing={2}>
+                                            <TextField
+                                                label="Amount"
+                                                name="amount"
+                                                value={values.amount}
+                                                onChange={handleChange}
+                                                error={touched.amount && Boolean(errors.amount)}
+                                                helperText={touched.amount && errors.amount}
+                                                fullWidth
+                                            />
+                                            <TextField
+                                                label="Currency"
+                                                name="currency"
+                                                value={values.currency}
+                                                onChange={handleChange}
+                                                error={touched.currency && Boolean(errors.currency)}
+                                                helperText={touched.currency && errors.currency}
+                                                fullWidth
+                                            />
+                                            <TextField
+                                                label="Payment Method"
+                                                name="paymentMethod"
+                                                value={values.paymentMethod}
+                                                onChange={handleChange}
+                                                error={touched.paymentMethod && Boolean(errors.paymentMethod)}
+                                                helperText={touched.paymentMethod && errors.paymentMethod}
+                                                fullWidth
+                                                select
+                                            >
+                                                <MenuItem value="BankTransfer">Bank Transfer</MenuItem>
+                                                <MenuItem value="CreditCard">Credit Card</MenuItem>
+                                                <MenuItem value="PayPal">PayPal</MenuItem>
+                                            </TextField>
+                                            <TextField
+                                                label="Payment Date"
+                                                name="paymentDate"
+                                                type="date"
+                                                value={values.paymentDate}
+                                                onChange={handleChange}
+                                                error={touched.paymentDate && Boolean(errors.paymentDate)}
+                                                helperText={touched.paymentDate && errors.paymentDate}
+                                                fullWidth
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                            />
+                                            <TextField
+                                                label="Reference Number"
+                                                name="referenceNumber"
+                                                value={values.referenceNumber}
+                                                onChange={handleChange}
+                                                error={touched.referenceNumber && Boolean(errors.referenceNumber)}
+                                                helperText={touched.referenceNumber && errors.referenceNumber}
+                                                fullWidth
+                                            />
+                                            <TextField
+                                                label="Notes"
+                                                name="notes"
+                                                value={values.notes}
+                                                onChange={handleChange}
+                                                multiline
+                                                rows={3}
+                                                fullWidth
+                                            />
+                                            <Button type="submit" variant="contained" color="primary">
+                                                Add Payment
+                                            </Button>
+                                        </Stack>
+                                    </form>
+                                )}
+                            </Formik>
+                        </AccordionDetails>
+                    </Accordion>
+
+                    <Box sx={{ p: 3, borderRadius: 2, textAlign: "center", backgroundColor: "rgb(221, 203, 154)", boxShadow: 1, minWidth: 500, justifyContent: "center", maxHeight: 400 }}>
+                        {/* Schedule Section */}
+                        <Box sx={{ position: "relative", mb: 2 }} width={500} textAlign={"left"}>
+                            <Typography variant="h5" sx={{ mb: 1 }}>
+                                Schedule <a href="http://"><OpenInNew /></a>
+                            </Typography>
+                            <Typography variant="subtitle1" sx={{ color: "text.secondary", fontSize: 14 }}>
+                                <table style={{ width: "100%" }}>
+                                    <thead>
+                                        <tr>
+                                            <th style={{ padding: "8px", textAlign: "left" }}>Event ID</th>
+                                            <th style={{ padding: "8px", textAlign: "left" }}>Description</th>
+                                            <th style={{ padding: "8px", textAlign: "left" }}>Date</th>
+                                            <th style={{ padding: "8px", textAlign: "left" }}>Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {applicant.schedules && applicant.schedules.map((event) => (
+                                            <tr key={event.id}>
+                                                <td style={{ padding: "8px" }}>{event.id}</td>
+                                                <td style={{ padding: "8px" }}>{event.description}</td>
+                                                <td style={{ padding: "8px" }}>{new Date(event.scheduledDate).toLocaleDateString()}</td>
+                                                <td style={{ padding: "8px" }}>{event.schdeduledTime}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </Typography>
+                        </Box>
+                    </Box>
                 </Stack>
             </Stack>
 
